@@ -2,7 +2,7 @@ import psycopg2
 import Model
 
 def display(text):
-    print(display)
+    print(text)
 
 def input_many():
     input1 = input('Input (delimiter=="/"): ')
