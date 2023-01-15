@@ -340,7 +340,6 @@ def add_random_purchase_book_pairs(n):
 def search_client(name):
     conn, cur = Controller.connect()
     s = "SELECT * FROM \"Client\" WHERE UPPER(\"Name\") LIKE '%" + name + "%' OR UPPER(\"Login\") LIKE '%" + name + "%' OR UPPER(\"Email\") LIKE '%" + name + "%' ;"
-    print(s)
     try:
         cur.execute(s)
     except:
@@ -350,7 +349,6 @@ def search_client(name):
 def search_author(name):
     conn, cur = Controller.connect()
     s = "SELECT * FROM \"Author\" WHERE UPPER(\"Name\") LIKE '%" + name + "%';"
-    print(s)
     try:
         cur.execute(s)
     except:
@@ -360,7 +358,6 @@ def search_author(name):
 def search_purchase(name):
     conn, cur = Controller.connect()
     s = "SELECT * FROM \"Purchase\" WHERE UPPER(\"BankTransactionNumber\") LIKE '%" + name + "%';"
-    print(s)
     try:
         cur.execute(s)
     except:
@@ -378,7 +375,6 @@ def search_book(price_min, price_max):
 def search_book_by_name(name):
     conn, cur = Controller.connect()
     s = "SELECT * FROM \"Book\" WHERE UPPER(\"Name\") LIKE '%" + name + "%';"
-    print(s)
     try:
         cur.execute(s)
     except:
