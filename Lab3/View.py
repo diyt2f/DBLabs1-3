@@ -51,7 +51,7 @@ def display_books(result):
     try:
         print('READ:')
         for i in result:
-            print('BookID:', i[0])
+            print('BookID:', i[0], ', BookName: ', i[1], ', PageCount:', i[2], ', Price:', i[3])
     except:
         print("Can't display books.")
 
@@ -59,7 +59,7 @@ def display_books1(result):
     try:
         print('READ:')
         for i in result:
-            print('Book is ', i)
+            print('Book is ',)
     except:
         print("Can't display books.")
 
@@ -67,7 +67,7 @@ def display_authors(result):
     try:
         print('READ:')
         for i in result:
-            print('AuthorID: ', i[0])
+            print('AuthorID: ', i[0], ', Name: ', i[1])
     except:
         print("Can't display authors.")
 

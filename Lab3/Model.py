@@ -116,60 +116,42 @@ def delete_book(book_id):
     session.commit()
 
 def add_author_book_pair(author_id, book_id):
-    conn, cur = Controller.connect()
-    try:
-        cur.execute("INSERT INTO \"Author_Book\" (\"AuthorID\", \"BookID\") VALUES (%s, %s)", (author_id, book_id))
-    except:
-        print("Can't add author book pair.")
-    conn.commit()
-    cur.close()
-    conn.close()
+    lib = session.query(Author).filter(Author.AuthorID == int(author_id)).first()
+    lib.Books.append(session.query(Book).filter(Book.BookID == int(book_id)).first())
+    session.add(lib)
+    session.commit()
 
 def get_authors_by_book_id(book_id):
-    conn, cur = Controller.connect()
-    try:
-        cur.execute("SELECT \"AuthorID\" FROM \"Author_Book\" WHERE \"BookID\"='%s'", (book_id,))
-    except:
-        print("Can't get authors by book id.")
-    return cur.fetchall()
+    lib = session.query(Author).join(book_author).join(Book).filter(Book.BookID == book_id).all()
+    r = []
+    for i in lib:
+        r.append([i.AuthorID, i.Name])
+    return r
 
 def delete_author_book_pairs_by_book_id(book_id):
-    conn, cur = Controller.connect()
-    try:
-        cur.execute("DELETE FROM \"Author_Book\" WHERE \"BookID\"='%s'", (book_id,))
-    except:
-        print("Can't delete author_book pair.")
-    conn.commit()
-    cur.close()
-    conn.close()
+    lib = session.query(Author).join(book_author).join(Book).filter(Book.BookID == book_id).all()
+    for i in lib:
+        session.delete(i)
+    session.commit()
 
 def add_purchase_book_pair(purchase_id, book_id):
-    conn, cur = Controller.connect()
-    try:
-        cur.execute("INSERT INTO \"Purchase_Book\" (\"PurchaseID\", \"BookID\") VALUES (%s, %s)", (purchase_id, book_id))
-    except:
-        print("Can't add purchase book pair.")
-    conn.commit()
-    cur.close()
-    conn.close()
+    lib = session.query(Purchase).filter(Purchase.PurchaseID == int(purchase_id)).first()
+    lib.Books.append(session.query(Book).filter(Book.BookID == int(book_id)).first())
+    session.add(lib)
+    session.commit()
 
 def get_books_by_purchase_id(purchase_id):
-    conn, cur = Controller.connect()
-    try:
-        cur.execute("SELECT \"BookID\" FROM \"Purchase_Book\" WHERE \"PurchaseID\"='%s'", (purchase_id,))
-    except:
-        print("Can't get books by purchase id.")
-    return cur.fetchall()
+    lib = session.query(Book).join(book_purchase).join(Purchase).filter(Purchase.PurchaseID == purchase_id).all()
+    r = []
+    for i in lib:
+        r.append([i.BookID, i.Name, i.PageCount, i.Price])
+    return r
 
 def delete_purchase_book_pairs_by_purchase_id(purchase_id):
-    conn, cur = Controller.connect()
-    try:
-        cur.execute("DELETE FROM \"Purchase_Book\" WHERE \"PurchaseID\"='%s'", (purchase_id,))
-    except:
-        print("Can't delete purchase_book pair.")
-    conn.commit()
-    cur.close()
-    conn.close()
+    lib = session.query(Book).join(book_purchase).join(Purchase).filter(Purchase.PurchaseID == purchase_id).all()
+    for i in lib:
+        session.delete(i)
+    session.commit()
 
 def add_purchase(purchase_id, client_id, sum, transaction_number):
     lib = Purchase(purchase_id, client_id, sum, transaction_number)
